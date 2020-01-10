@@ -20,5 +20,5 @@ from django.urls import include
 urlpatterns = [
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
-    path('locator', include('datafetch_locator.urls'))
+    path('locator/', include('datafetch_locator.urls'))
 ]
