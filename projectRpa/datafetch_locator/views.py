@@ -7,13 +7,11 @@ from django.template import loader
 
 def index(request):
     layerArray = Layer.objects.order_by('-pub_date')[:5]
-    print(layerArray)
-
-    template = loader.get_template('datafetch_locator/index.html')
     context = {
         'latest_question_list': layerArray,
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, 'datafetch_locator/index.html', context)
+
 
 def getLocatorId(request, locator_id):
     return HttpResponse("Locator id: %s" % locator_id)
