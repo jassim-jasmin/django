@@ -9,7 +9,7 @@ def index(request):
     layerArray = Layer.objects.order_by('-pub_date')[:5]
     print(layerArray)
 
-    template = loader.get_template('polls/index.html')
+    template = loader.get_template('datafetch_locator/index.html')
     context = {
         'latest_question_list': layerArray,
     }
