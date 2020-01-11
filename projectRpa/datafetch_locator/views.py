@@ -43,6 +43,29 @@ def layerData(request, layer_id):
     """
     try:
         getLayer = get_object_or_404(Layer, layer_name=layer_id)
-        return render(request, 'datafetch_locator/details.html', { 'layer': getLayer } )
+        return render(request, 'datafetch_locator/detail.html', { 'layer': getLayer } )
     except Layer.DoesNotExist:
         raise Http404("Layer does not exist")
+
+def manage_locator(request, locator_id):
+    print('id', locator_id)
+
+    layer = get_object_or_404(Layer, pk=locator_id)
+    try:
+        print('choice;;', request.POST['locator_id'])
+        layer.locator_set.create(locator_id=request.POST['locator_id'], locator_data=request.POST['locator_data'])
+        # layer.save()
+
+        # selected_choice = layer.locator_set.get(pk=request.POST['locator_select'])
+        # print('selected choice:',selected_choice)
+    except (KeyError, Layer.DoesNotExist):
+        return render(request, 'datafetch_locator/detail.html', {
+            'layer': layer,
+            'error_message': "OPERATION FAILED",
+            'choice':'blah',
+        })
+    else:
+        return render(request, 'datafetch_locator/detail.html', {
+            'layer': layer,
+    })
+

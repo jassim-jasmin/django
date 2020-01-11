@@ -1,0 +1,28 @@
+<h1>{{ layer.layer_name }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<select>
+        {% for choice in layer.locator_set.all %}
+        <option value="{{choice.id}}">{{ choice.locator_data }}</option>
+        {% endfor %}
+    </select>
+    <br>
+
+<form action="{% url 'datafetch_locator:manage_locator' layer.id %}" method="post">
+{% csrf_token %}
+
+
+    <input type="text" name="locator_id" placeholder="locator id">
+    <br>
+    <input type="text" name="locator_data" placeholder="locator_data">
+
+
+<input type="submit" value="Ok">
+    <br>
+    {% if choice %}
+    <p>{{ choice }}</p>
+    {% else %}
+    hello
+    {% endif %}
+</form>
