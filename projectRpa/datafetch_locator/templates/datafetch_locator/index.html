@@ -1,7 +1,7 @@
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
-        <li><a href="/locator/{{ question.layer_name }}/">{{ question.layer_name }}</a></li>
+        <li><a href="{% url 'layerData' question.layer_name %}">{{ question.layer_name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
