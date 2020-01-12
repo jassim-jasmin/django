@@ -5,5 +5,13 @@
     {% endfor %}
     </ul>
 {% else %}
-    <p>No polls are available.</p>
+    <p>No layer defined.</p>
 {% endif %}
+
+<form action="{% url 'datafetch_locator:add_layer' %}" method="post">
+{% csrf_token %}
+    <input type="text" name="input_layer_name" placeholder="layer name">
+    <br>
+
+    <input type="submit" value="Add Layer">
+</form>

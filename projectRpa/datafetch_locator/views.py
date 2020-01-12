@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import Http404
 
+from django.utils import timezone
+
 # Create your views here.
 from django.http import HttpResponse
 from .models import Layer, Locator
@@ -69,3 +71,19 @@ def manage_locator(request, locator_id):
             'layer': layer,
     })
 
+def addLayer(request):
+    """
+    For adding new layer
+    :param request:
+    :param layerName:
+    :return:
+    """
+    input_layer_name = request.POST['input_layer_name']
+    print(input_layer_name)
+    print('calling')
+    layer = Layer(layer_name=input_layer_name, pub_date=timezone.now())
+    layer.save()
+
+    return render(request, 'datafetch_locator/index.html', {
+            'layer': layer,
+    })

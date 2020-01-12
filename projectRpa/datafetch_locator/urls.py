@@ -8,5 +8,6 @@ urlpatterns = [
     path('layer/', views.getAllLayer, name='allLayer'),
     path('layer/<str:layer_id>/', views.layerData, name='layerData'),
     path('<str:locator_id>/', views.manage_locator, name='manage_locator'),
+    path('/', views.addLayer, name='add_layer')
 
 ]
