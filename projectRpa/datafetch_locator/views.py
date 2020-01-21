@@ -5,7 +5,7 @@ from django.utils import timezone
 
 # Create your views here.
 from django.http import HttpResponse
-from .models import Layer, Layer_Connect, Layer_Validation
+from .models import Layer, Layer_Connect, Layer_Validation, Locator
 from django.template import loader
 
 def layerMain(request):
@@ -15,11 +15,15 @@ def layerMain(request):
     return render(request, 'datafetch_locator/layer_main.html', layerJson)
 
 def locatorMain(request, layer):
-    layer = Layer.objects.get(pk=request.POST['layer'])
-    # locator = layer.objects.locator_set.filter(layer_name=layer)
+    selectedLayer = Layer.objects.get(pk=request.POST['layer'])
+
+    locator = Locator.objects.filter(layer_name=selectedLayer)
+
+    # locator = layer.objects.locator_set.filter(layer_name=selectedLayer)
+    locatorJson = {'layer' : layer, 'locator' : locator}
     print(layer)
 
-    return HttpResponse('call success')
+    return render(request, 'datafetch_locator/locator_main.html', locatorJson)
 
 def index(request):
     return HttpResponse('hello')

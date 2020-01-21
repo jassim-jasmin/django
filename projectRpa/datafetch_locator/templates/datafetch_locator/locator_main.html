@@ -5,6 +5,22 @@
     <title>Title</title>
 </head>
 <body>
-Hello
+{% if locator %}
+    {% for eachLocator in locator.all %}
+        <select>
+            <option value="{{ eachLocator.id }}"> {{ eachLocator.locator_id }}</option>
+        </select>
+
+        {% if eachLocator.locator_data %}
+            {{ eachLocator.locator_data }}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+<form>
+    <input type="text" placeholder="locator id">
+    <input type="text" placeholder="locator tag">
+    <input type="submit">
+</form>
 </body>
 </html>

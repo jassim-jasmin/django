@@ -31,3 +31,6 @@ class Locator(models.Model):
     locator_id = models.CharField(max_length=200)
     locator_data = models.CharField(max_length=500)
     connect = models.ForeignKey(Layer, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.locator_id
