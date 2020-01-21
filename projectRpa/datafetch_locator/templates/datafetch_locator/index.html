@@ -1,17 +1,26 @@
-{% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><a href="{% url 'datafetch_locator:layerData' question.layer_name %}">{{ question.layer_name }}</a></li>
-    {% endfor %}
-    </ul>
+{% if layer_list %}
+    <form action="{% url 'datafetch_locator:delete_layer' layer_list %}" method="post">
+        {% csrf_token %}
+        <select>
+            {% for each_layer in layer_list.all %}
+            <option value="{{each_layer.id}}">{{ each_layer.layer_name }}</option>
+            {% endfor %}
+        </select>
+        {% comment %}
+        <input type="submit" value="Delete" id="delete" name="delete_layer">
+        {% endcomment %}
+    </form>
 {% else %}
     <p>No layer defined.</p>
 {% endif %}
 
-<form action="{% url 'datafetch_locator:add_layer' %}" method="post">
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+
+<form action="{% url 'datafetch_locator:add_layer' layer_list%}" method="post">
 {% csrf_token %}
     <input type="text" name="input_layer_name" placeholder="layer name">
     <br>
 
-    <input type="submit" value="Add Layer">
+    <input type="submit" value="Add Layer" id="add">
 </form>
