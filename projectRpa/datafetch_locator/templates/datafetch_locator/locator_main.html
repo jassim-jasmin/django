@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{% if locator %}
-    {% for eachLocator in locator.all %}
-        <select>
-            <option value="{{ eachLocator.id }}"> {{ eachLocator.locator_id }}</option>
-        </select>
-
-        {% if eachLocator.locator_data %}
-            {{ eachLocator.locator_data }}
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        {% if layer_name %}
+            {{layer_name}}
         {% endif %}
-    {% endfor %}
-{% endif %}
 
-<form>
-    <input type="text" placeholder="locator id">
-    <input type="text" placeholder="locator tag">
-    <input type="submit">
-</form>
-</body>
+        {% if locator %}
+            {% for eachLocator in locator.all %}
+                <select>
+                    <option value="{{ eachLocator.id }}"> {{ eachLocator.locator_id }}</option>
+                </select>
+
+                {% if eachLocator.locator_data %}
+                    {{ eachLocator.locator_data }}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <form action="{% url 'datafetch_locator:add_locator' layer_name%}" method="post">
+            {% csrf_token %}
+            <input type="text" placeholder="locator id">
+            <input type="text" placeholder="locator tag">
+            <input type="submit" name="add_locator_button" value="Add Locator">
+        </form>
+    </body>
 </html>
