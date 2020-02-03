@@ -9,22 +9,31 @@ from .models import Layer, Layer_Connect, Layer_Validation, Locator
 from django.template import loader
 
 def layerMain(request):
-    layerName = Layer.objects.order_by('layer_name')
-    layerJson = { 'layer_name' : layerName}
+    try:
+        layerName = Layer.objects.order_by('layer_name')
+        layerJson = { 'layer_name' : layerName}
 
-    return render(request, 'datafetch_locator/layer_main.html', layerJson)
+        return render(request, 'datafetch_locator/layer_main.html', layerJson)
+    except Exception as e:
+        return render(request, 'datafetch_locator/layer_main.html', {'error_message':e})
 
 def locatorMain(request):
-    if 'layer' in request.POST:
-        selectedLayer = Layer.objects.get(pk=request.POST['layer'])
-
-        locator = Locator.objects.filter(layer_name=selectedLayer)
-
-        locatorJson = {'locator' : selectedLayer, 'layer_name':selectedLayer}
+    if 'delete_layer_button' in request.POST:
+        layer = Layer.objects.get(pk=request.POST['layer'])
+        layer.delete()
+        print('deleted',layer)
+        layerName = Layer.objects.order_by('layer_name')
+        layerJson = {'layer_name': layerName}
+        return render(request, 'datafetch_locator/layer_main.html', layerJson)
     else:
-        return render(request, 'datafetch_locator/locator_main.html', {'locator' : None})
+        if 'layer' in request.POST:
+            selectedLayer = Layer.objects.get(pk=request.POST['layer'])
+            locatorList = selectedLayer.locator_set.all()
+            locatorJson = {'locator' : selectedLayer, 'layer_name':selectedLayer, 'locator_list':locatorList}
+        else:
+            locatorJson = {'locator' : None}
 
-    return render(request, 'datafetch_locator/locator_main.html', locatorJson)
+        return render(request, 'datafetch_locator/locator_main.html', locatorJson)
 
 def index(request):
     return HttpResponse('hello')
@@ -50,10 +59,33 @@ def addLayer(request):
 def addLocator(request, layerName):
     if 'add_locator_button' in request.POST:
         print('layer name', layerName)
-        newLocator = request.POST['add_locator_button']
-        locator = Locator.obje
+        locatorId = request.POST['locator_id']
+        locatorTag = request.POST['locator_tag']
+        layer = Layer.objects.get(layer_name=layerName)
 
-    return HttpResponse('success')
+        layer.locator_set.create(layer_name=layerName, locator_id=locatorId, locator_data=locatorTag)
+        locatorList = layer.locator_set
+        locatorJson = {'locator' : layerName, 'layer_name':layerName, 'locator_list':locatorList}
+    else:
+        locatorJson = {'locator' : None}
+
+    return render(request, 'datafetch_locator/locator_main.html', locatorJson)
+
+    # return HttpResponse(layer.locator_set.all())
+
+def deleteLocatorData(request):
+    if 'delete_locator_tag' in request.POST:
+        locator = Locator.objects.get(id=request.POST['locator_tag'])
+        layerName = locator.layer_name
+        locator.delete()
+        layer = Layer.objects.get(layer_name=layerName)
+        locatorJson = {'locator': layerName, 'layer_name': layerName, 'locator_list': layer.locator_set}
+
+    else:
+        locatorJson = {'locator': None}
+
+    return render(request, 'datafetch_locator/locator_main.html', locatorJson)
+
 
 def testFunction():
     print('button cliked')

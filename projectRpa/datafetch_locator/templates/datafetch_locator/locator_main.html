@@ -5,26 +5,22 @@
         <title>Title</title>
     </head>
     <body>
-        {% if layer_name %}
-            {{layer_name}}
-        {% endif %}
-
-        {% if locator %}
-            {% for eachLocator in locator.all %}
-                <select>
-                    <option value="{{ eachLocator.id }}"> {{ eachLocator.locator_id }}</option>
+        {% if locator_list %}
+            <form action="{% url 'datafetch_locator:delete_locator_data' %}" method="post">
+                {% csrf_token %}
+                <select name="locator_tag">
+                    {% for eachLocator in locator_list.all %}
+                        <option value="{{ eachLocator.id }}"> Locator id:{{ eachLocator.locator_id }} Locator Data:{{ eachLocator.locator_data  }}</option>
+                    {% endfor %}
                 </select>
-
-                {% if eachLocator.locator_data %}
-                    {{ eachLocator.locator_data }}
-                {% endif %}
-            {% endfor %}
+                <input type="submit" value="Delete" name="delete_locator_tag">
+            </form>
         {% endif %}
 
         <form action="{% url 'datafetch_locator:add_locator' layer_name%}" method="post">
             {% csrf_token %}
-            <input type="text" placeholder="locator id">
-            <input type="text" placeholder="locator tag">
+            <input type="text" placeholder="locator id" name="locator_id">
+            <input type="text" placeholder="locator tag" name="locator_tag">
             <input type="submit" name="add_locator_button" value="Add Locator">
         </form>
     </body>

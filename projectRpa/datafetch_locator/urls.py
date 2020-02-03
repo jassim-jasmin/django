@@ -8,6 +8,7 @@ urlpatterns = [
     path('layer_main/', views.layerMain, name='layerMain'),
     path('locator_main/', views.locatorMain, name='locatorMain'),
     path('add_layer/', views.addLayer, name='add_layer'),
-    path('add_locator/<str:layerName>/', views.addLocator, name='add_locator')
+    path('add_locator/<str:layerName>/', views.addLocator, name='add_locator'),
+    path('delete_locator_data/', views.deleteLocatorData, name='delete_locator_data')
 
 ]

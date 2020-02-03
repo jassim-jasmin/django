@@ -7,17 +7,18 @@
 </head>
 <body>
     {% if layer_name %}
-    <form action="{% url 'datafetch_locator:locatorMain' %}" method="post">
-        {% csrf_token %}
-            <select name="layer">
-                {% for each_layer in layer_name.all %}
-                    <option value="{{each_layer.id}}">{{ each_layer.layer_name }}</option>
-                {% endfor %}
-            </select>
-            <br>
-            <br>
-            <input type="submit" value="Locator" name="locator_main_submit">
-    </form>
+        <form action="{% url 'datafetch_locator:locatorMain' %}" method="post">
+            {% csrf_token %}
+                <select name="layer">
+                    {% for each_layer in layer_name.all %}
+                        <option value="{{each_layer.id}}">{{ each_layer.layer_name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Delete" name="delete_layer_button">
+                <br>
+                <br>
+                <input type="submit" value="Locator" name="locator_main_submit">
+        </form>
     {% else %}
         No Layer registered in DB
     {% endif %}
