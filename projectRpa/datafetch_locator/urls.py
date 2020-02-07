@@ -9,6 +9,7 @@ urlpatterns = [
     path('locator_main/', views.locatorMain, name='locatorMain'),
     path('add_layer/', views.addLayer, name='add_layer'),
     path('add_locator/<str:layerName>/', views.addLocator, name='add_locator'),
-    path('delete_locator_data/', views.deleteLocatorData, name='delete_locator_data')
+    path('delete_locator_data/', views.deleteLocatorData, name='delete_locator_data'),
+    path('layer_connector/', views.layerConnectorMain, name='layer_connector')
 
 ]

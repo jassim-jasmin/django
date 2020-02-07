@@ -25,8 +25,32 @@
 
     <form action="{%url 'datafetch_locator:add_layer' %}" method="post">
         {% csrf_token %}
+        <br>
         <input type="text" placeholder="Layer name" name="input_layer_name" required>
         <input type="submit" value="Add layer" name="add_layer" onclick="testFunction()">
+    </form>
+
+    <form action="{%url 'datafetch_locator:layer_connector' %}" method="post">
+        {% csrf_token %}
+        {% if layer_connect %}
+            <select name="layer">
+                {% for each_layer_connect in layer_connect.all %}
+                            <option value="{{each_layer.id}}">
+                                {{ each_layer_connect.left_layer_name }}:::
+                                {{ each_layer_connect.right_layer_name }}#
+                                {{ each_layer_connect.left_connect }}:::
+                                {{ each_layer_connect.right_connect }}
+                            </option>
+                {% endfor %}
+            </select>
+        {% endif %}
+        <br>
+        <input type="text" placeholder="left layer name" name="left_layer_name" required>
+        <input type="text" placeholder="right layer name" name="right_layer_name" required>
+        <input type="text" placeholder="left connector" name="left_connect" required>
+        <input type="text" placeholder="right connector" name="right_connect" required>
+        <br>
+        <input type="submit" value="Add Connector">
     </form>
 
 </body>

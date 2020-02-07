@@ -11,7 +11,8 @@ from django.template import loader
 def layerMain(request):
     try:
         layerName = Layer.objects.order_by('layer_name')
-        layerJson = { 'layer_name' : layerName}
+        layerConnect = Layer_Connect.objects.order_by('id')
+        layerJson = { 'layer_name' : layerName, 'layer_connect':layerConnect}
 
         return render(request, 'datafetch_locator/layer_main.html', layerJson)
     except Exception as e:
@@ -86,6 +87,9 @@ def deleteLocatorData(request):
 
     return render(request, 'datafetch_locator/locator_main.html', locatorJson)
 
+def layerConnectorMain(request):
+    print('hello')
+    return HttpResponse('hello')
 
 def testFunction():
     print('button cliked')
